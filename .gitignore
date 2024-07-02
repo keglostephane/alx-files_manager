@@ -2,3 +2,5 @@
 *~
 # Node modules
 node_modules/
+# redis
+redis-6.0.10

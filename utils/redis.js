@@ -5,19 +5,19 @@ class RedisClient {
     this.client = redis.createClient();
 
     this.client.on('error', (err) => {
-      console.error('Redis client not connected to the server:', err);
+      console.log('Redis client not connected to the server:', err);
     });
   }
 
-  isAlive = () => {
+  isAlive() {
     return this.client.connected;
   }
 
-  get = (key) => {
+  get(key) {
     return new Promise((resolve, reject) => {
       this.client.get(key, (err, reply) => {
         if (err) {
-          console.error(err);
+          console.log(err);
           return reject(err);
         }
         resolve(reply);
@@ -25,11 +25,11 @@ class RedisClient {
     });
   }
 
-  set = (key, value, duration) => {
+  set(key, value, duration) {
     return new Promise((resolve, reject) => {
       this.client.setex(key, duration, value, (err, reply) => {
         if (err) {
-          console.error(err);
+          console.log(err);
           return reject(err);
         }
         resolve(reply);
@@ -37,11 +37,11 @@ class RedisClient {
     });
   }
 
-  del = (key) => {
+  del(key) {
     return new Promise((resolve, reject) => {
       this.client.del(key, (err, reply) => {
         if (err) {
-          console.error(err);
+          console.log(err);
           return reject(err);
         }
         resolve(reply);
@@ -50,4 +50,5 @@ class RedisClient {
   }
 }
 
-module.exports = new RedisClient();
+const redisClient = new RedisClient();
+module.exports = redisClient;

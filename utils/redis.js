@@ -13,38 +13,41 @@ class RedisClient {
     return this.client.connected;
   }
 
-  get(key) {
+  async get(key) {
     return new Promise((resolve, reject) => {
       this.client.get(key, (err, reply) => {
         if (err) {
-          console.log(err);
-          return reject(err);
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(reply);
         }
-        resolve(reply);
       });
     });
   }
 
-  set(key, value, duration) {
+  async set(key, value, duration) {
     return new Promise((resolve, reject) => {
       this.client.setex(key, duration, value, (err, reply) => {
         if (err) {
-          console.log(err);
-          return reject(err);
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(reply);
         }
-        resolve(reply);
       });
     });
   }
 
-  del(key) {
+  async del(key) {
     return new Promise((resolve, reject) => {
       this.client.del(key, (err, reply) => {
         if (err) {
-          console.log(err);
-          return reject(err);
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(reply);
         }
-        resolve(reply);
       });
     });
   }

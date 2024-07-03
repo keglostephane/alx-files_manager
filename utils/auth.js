@@ -3,11 +3,11 @@
 import sha1 from 'sha1';
 
 
-export default pwdHashed(pwd) {
+export pwdHashed(pwd) {
   return sha1(pwd);
 }
 
-export default getAuthHeader(req) {
+export getAuthHeader(req) {
   const header = req.headers.authorization;
   if (!header) {
     return null;
@@ -15,7 +15,7 @@ export default getAuthHeader(req) {
   return header;
 };
 
-export default getToken(authHeader) {
+export getToken(authHeader) {
   const tokenType = authHeader.substring(0, 6);
   if (tokenType !== 'Basic ') {
     return null;
@@ -23,7 +23,7 @@ export default getToken(authHeader) {
   return authHeader.substring(6);
 };
 
-export default decodeToken(token) {
+export decodeToken(token) {
   const decodedToken = Buffer.from(token, 'base64').toString('utf8');
   if (!decodedToken.includes(':')) {
     return null;
@@ -31,7 +31,7 @@ export default decodeToken(token) {
   return decodedToken;
 };
 
-export default getCredentials(decodedToken) {
+export getCredentials(decodedToken) {
   const [email, password] = decodedToken.split(':');
   if (!email || !password) {
     return null;

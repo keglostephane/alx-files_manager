@@ -8,8 +8,8 @@ const AuthController = {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Basic ')) {
-      console.log(authHeader)
-      console.log('Not authorized')
+      console.log(authHeader);
+      console.log('Not authorized');
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
@@ -41,10 +41,10 @@ const AuthController = {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const userId = await redisClient.get(`auth_${token}`)
+    const userId = await redisClient.get(`auth_${token}`);
 
     if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' })
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     await redisClient.del(`auth_${token}`);

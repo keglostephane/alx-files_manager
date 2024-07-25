@@ -196,7 +196,7 @@ const FilesController = {
 
     return res.status(200).json(file.value);
   },
-
+  // eslint-disable-next-line consistent-return
   async getFile(req, res) {
     const token = req.headers['x-token'];
     const { id } = req.params;
@@ -228,8 +228,6 @@ const FilesController = {
     const mimeType = mime.lookup(file.name);
     res.setHeader('Content-Type', mimeType);
     fs.createReadStream(localPath).pipe(res);
-
-    return null;
   },
 };
 

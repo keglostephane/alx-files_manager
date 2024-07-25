@@ -127,22 +127,19 @@ const FilesController = {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const { parentId = 0, page = 0 } = req.query;
-    const limit = 20;
-    const skip = parseInt(page, 10) * limit;
+    let { parentId = '0', page = '0' } = req.query;
+    page = parseInt(page, 10);
+    if (page.isNaN || page < 0) page = 0;
+    parentId = parentId === '0' ? '0' : new ObjectId(parentId);
+    const pageSize = 20;
 
-    try {
-      const files = await dbClient.db.collection('files')
-        .find({ userId: new ObjectId(userId), parentId: new ObjectId(parentId) })
-        .skip(skip)
-        .limit(limit)
-        .toArray();
+    const files = await dbClient.db.collection('files').aggregate([
+      { $match: { userId: new ObjectId(userId), parentId } },
+      { $skip: page * pageSize },
+      { $limit: pageSize },
+    ]).toArray();
 
-      return res.status(200).json(files);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
+    return res.status(200).json(files);
   },
 };
 
